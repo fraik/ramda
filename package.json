@@ -7,7 +7,7 @@
     "ramda": "^0.22.1"
   },
   "devDependencies": {
-	"tape": "latest",
+    "tape": "latest",
     "chalk": "latest"
   },
   "scripts": {
