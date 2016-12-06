@@ -8,12 +8,12 @@ test('Testing currying', function(t) {
 });
 
 test('Pick values from list by indexes', function(t) {
-	// :: [Number] -> [a] -> [a]
-	var pickIndexes = R.compose(R.values, R.pickAll);
+    // :: [Number] -> [a] -> [a]
+    var pickIndexes = R.compose(R.values, R.pickAll);
 
-	var result = pickIndexes([0, 2], ['a', 'b', 'c']); // => ['a', 'c']
+    var result = pickIndexes([0, 2], ['a', 'b', 'c']); // => ['a', 'c']
 
-	t.deepEqual(result, ['a', 'c']);
+    t.deepEqual(result, ['a', 'c']);
     t.end();
 });
 
