@@ -1,6 +1,13 @@
 var R = require('ramda');
 
-var isString = R.is(String);
-var result = isString('foo'); // => true
+// currying 101
+function isString(test) {
+    return R.is(String, test);
+}
+console.log(isString('foo'));//=> true
 
-console.log(result);
+var isString = R.is(String);
+console.log(isString('foo'));//=> true
+
+
+console.log(R.sum(R.range(1, 5)));//=> 10

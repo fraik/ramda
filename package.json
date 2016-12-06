@@ -6,9 +6,11 @@
   "dependencies": {
     "ramda": "^0.22.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+	"tape": "latest"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape test.js | tspec"
   },
   "repository": {
     "type": "git",
