@@ -1,0 +1,27 @@
+{
+  "name": "ramda-noob",
+  "version": "0.0.1",
+  "description": "Look it's trying to think (figuring out ramda)",
+  "main": "app.js",
+  "dependencies": {
+    "ramda": "^0.22.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fraik/ramda-noob.git"
+  },
+  "keywords": [
+    "ramda",
+    "tutorial"
+  ],
+  "author": "fraik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fraik/ramda-noob/issues"
+  },
+  "homepage": "https://github.com/fraik/ramda-noob#readme"
+}
