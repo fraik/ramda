@@ -1,8 +1,5 @@
 var R = require('ramda');
 
-// /r/dailyprogrammer #294
-// https://www.reddit.com/r/dailyprogrammer/comments/5go843/20161205_challenge_294_easy_rack_management_1/
-
 // TODO clean up and use Ramda
 var scrabble = function(steentjes, zoekwoord) {
 
