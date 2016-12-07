@@ -11,7 +11,7 @@
     "chalk": "latest"
   },
   "scripts": {
-    "test": "tape test.js | tspec"
+    "test": "tape test.js | tspec; tape loop.js | tspec"
   },
   "repository": {
     "type": "git",
