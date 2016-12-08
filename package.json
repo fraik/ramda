@@ -4,7 +4,8 @@
   "description": "Look it's trying to think (figuring out ramda)",
   "main": "app.js",
   "dependencies": {
-    "ramda": "^0.22.1"
+    "ramda": "^0.22.1",
+    "promise": "latest"
   },
   "devDependencies": {
     "tape": "latest",
