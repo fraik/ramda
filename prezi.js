@@ -1,23 +1,36 @@
-/* http://scott.sauyet.com/Javascript/Talk/2014/01/FuncProgTalk/  */
+// http://scott.sauyet.com/Javascript/Talk/2014/01/FuncProgTalk/#slide-55
 var Promise = require('promise');
-var fs = require('fs');
 
-var readFile = Promise.denodeify(require('fs').readFile);
-// now `readFile` will return a promise rather than
-// expecting a callback
-
-function readJSON(filename, callback){
-  // If a callback is provided, call it with error as the
-  // first argument and result as the second argument,
-  // then return `undefined`. If no callback is provided,
-  // just return the promise.
-  return readFile(filename, 'utf8')
-    .then(JSON.parse)
-    .nodeify(callback);
+var data = {
+    result: "SUCCESS",
+    interfaceVersion: "1.0.3",
+    requested: "10/17/2013 15:31:20",
+    lastUpdated: "10/16/2013 10:52:39",
+    tasks: [
+        {id: 104, complete: false,            priority: "high",
+                  dueDate: "11/29/2013",      member: "Scott",
+                  title: "Do something",      created: "9/22/2013"},
+        {id: 105, complete: false,            priority: "medium",
+                  dueDate: "11/22/2013",      member: "Lena",
+                  title: "Do something else", created: "9/22/2013"},
+        {id: 107, complete: true,             priority: "high",
+                  dueDate: "11/22/2013",      member: "Mike",
+                  title: "Fix the foo",       created: "9/22/2013"},
+        {id: 108, complete: false,            priority: "low",
+                  dueDate: "11/15/2013",      member: "Punam",
+                  title: "Adjust the bar",    created: "9/25/2013"},
+        {id: 110, complete: false,            priority: "medium",
+                  dueDate: "11/15/2013",      member: "Scott",
+                  title: "Rename everything", created: "10/2/2013"},
+        {id: 112, complete: true,             priority: "high",
+                  dueDate: "11/27/2013",      member: "Lena",
+                  title: "Alter all quuxes",  created: "10/5/2013"}
+    ]
 }
-
-console.log(readJSON('prezi-data.js'));
-
+var fetchData = function() {
+    var henk = new Promise(function(){ return data;});
+    return henk;
+}
 // functional version
 
 // imperative version
@@ -136,4 +149,4 @@ var TaskListSorter = (function()  {
     return TaskListSorter;
 }());
 
-//console.log(getIncompleteTaskSummariesForMember_imperative('Scott'));
+console.log(getIncompleteTaskSummariesForMember_imperative('Scott'));
