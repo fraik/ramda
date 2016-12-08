@@ -3,8 +3,16 @@ var Promise = require('promise');
 var R = require('ramda');
 
 // aliases (for readability)
+// several equivalent forms of get('tasks') (called curry-ing in the prezi)
 var get = R.prop;
 var get = R.curry(function(prop, obj) {return obj[prop];});
+var get = function(prop) {
+    return function(obj) {
+        return obj[prop];
+    };
+};
+var filter = R.filter;
+var reject = R.reject;
 
 // helper functions TODO replace this with simpler Promise-thingy as soon as I understand those
 var readFile = Promise.denodeify(require('fs').readFile);
@@ -25,8 +33,12 @@ var fetchData = function() {
 // functional version
 var getIncompleteTaskSummariesForMember_functional = function(memberName) {
     return fetchData()
-        .then(get('tasks'));
+        .then(get('tasks'))
+        .then(filter(function(task) { return task.member == memberName; }))
+        .then(reject(function(task) { return task.complete === true; }))
+    ;
 }
+
 
 // imperative version
 var getIncompleteTaskSummariesForMember_imperative = function(memberName) {
@@ -147,5 +159,5 @@ var TaskListSorter = (function()  {
 //var data = getIncompleteTaskSummariesForMember_imperative('Lena');
 //data.then(function(d){console.log(d);});
 
-var data = getIncompleteTaskSummariesForMember_functional('Scott');
+var data = getIncompleteTaskSummariesForMember_functional('Lena');
 data.then(function(d){console.log(d);});
