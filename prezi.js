@@ -1,20 +1,10 @@
-// http://scott.sauyet.com/Javascript/Talk/2014/01/FuncProgTalk/#slide-55
+// http://scott.sauyet.com/Javascript/Talk/2014/01/FuncProgTalk/#slide-55   (functional programming talk)
+// http://scott.sauyet.com/Javascript/Talk/Compose/2013-05-22/#slide-2      (function composition talk)
+
 var Promise = require('promise');
 var R = require('ramda');
 
-// aliases (for readability)
-// several equivalent forms of get('tasks') (called curry-ing in the prezi)
-var get = R.prop;
-var get = R.curry(function(prop, obj) {return obj[prop];});
-var get = function(prop) {
-    return function(obj) {
-        return obj[prop];
-    };
-};
-var filter = R.filter;
-var reject = R.reject;
-
-// helper functions TODO replace this with simpler Promise-thingy as soon as I understand those
+// helper functions
 var readFile = Promise.denodeify(require('fs').readFile);
 function readJSON(filename, callback){
   // If a callback is provided, call it with error as the
@@ -29,6 +19,30 @@ function readJSON(filename, callback){
 var fetchData = function() {
     return readJSON('prezi-data.js');
 }
+
+// aliases (for readability)
+var filter = R.filter;
+var eq = R.eq;
+var compose = R.compose;
+// several equivalent forms of get('tasks') (called curry-ing in the prezi)
+var get = R.prop;
+var get = R.curry(function(prop, obj) {return obj[prop];});
+var get = function(prop) {
+    return function(obj) {
+        return obj[prop];
+    };
+};
+var reject = R.reject;
+var propEq = function(prop, val) { // original propEq definition
+    return function(obj) {
+        return obj[prop] === val;
+    };
+}
+var propEq = function(prop, val) { // first points-free try
+	return compose(eq(val), get(prop));
+}
+
+
 
 // functional version
 var getIncompleteTaskSummariesForMember_functional = function(memberName) {
