@@ -7,6 +7,7 @@ var sales = [{ customer: 'Kurt', item: 'cup', price: 14.99 },
              { customer: 'Siri', item: 'drone', price: 1095.00 },
              { customer: 'Kurt', item: 'book', price: 22.50 },
              { customer: 'Lisa', item: 't-shirt', price: 25.00 }];
+
 /* Example 2 */
 // non-ramda version
 function countPricySales(sales) {
