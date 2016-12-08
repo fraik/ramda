@@ -1,8 +1,13 @@
 // http://scott.sauyet.com/Javascript/Talk/2014/01/FuncProgTalk/#slide-55
 var Promise = require('promise');
+var R = require('ramda');
 
+// aliases (for readability)
+var get = R.prop;
+var get = R.curry(function(prop, obj) {return obj[prop];});
+
+// helper functions TODO replace this with simpler Promise-thingy as soon as I understand those
 var readFile = Promise.denodeify(require('fs').readFile);
-
 function readJSON(filename, callback){
   // If a callback is provided, call it with error as the
   // first argument and result as the second argument,
@@ -19,6 +24,8 @@ var fetchData = function() {
 
 // functional version
 var getIncompleteTaskSummariesForMember_functional = function(memberName) {
+    return fetchData()
+        .then(get('tasks'));
 }
 
 // imperative version
@@ -137,6 +144,8 @@ var TaskListSorter = (function()  {
     return TaskListSorter;
 }());
 
-var data = getIncompleteTaskSummariesForMember_imperative('Lena');
-data.then(function(d){console.log(d);});
+//var data = getIncompleteTaskSummariesForMember_imperative('Lena');
+//data.then(function(d){console.log(d);});
 
+var data = getIncompleteTaskSummariesForMember_functional('Scott');
+data.then(function(d){console.log(d);});
