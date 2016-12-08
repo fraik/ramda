@@ -17,7 +17,7 @@ function readJSON(filename, callback){
 }
 
 var fetchData = function() {
-    return readJSON('prezi-data.js');
+    return readJSON('data.json');
 }
 
 // aliases (for readability)
