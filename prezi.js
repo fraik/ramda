@@ -1,20 +1,10 @@
-// http://scott.sauyet.com/Javascript/Talk/2014/01/FuncProgTalk/#slide-55
+// http://scott.sauyet.com/Javascript/Talk/2014/01/FuncProgTalk/#slide-55   (functional programming talk)
+// http://scott.sauyet.com/Javascript/Talk/Compose/2013-05-22/#slide-2      (function composition talk)
+
 var Promise = require('promise');
 var R = require('ramda');
 
-// aliases (for readability)
-// several equivalent forms of get('tasks') (called curry-ing in the prezi)
-var get = R.prop;
-var get = R.curry(function(prop, obj) {return obj[prop];});
-var get = function(prop) {
-    return function(obj) {
-        return obj[prop];
-    };
-};
-var filter = R.filter;
-var reject = R.reject;
-
-// helper functions TODO replace this with simpler Promise-thingy as soon as I understand those
+// helper functions
 var readFile = Promise.denodeify(require('fs').readFile);
 function readJSON(filename, callback){
   // If a callback is provided, call it with error as the
@@ -27,18 +17,56 @@ function readJSON(filename, callback){
 }
 
 var fetchData = function() {
-    return readJSON('prezi-data.js');
+    return readJSON('data.json');
 }
+
+// aliases (for readability)
+var compose = R.compose;
+var eq      = R.equals;
+var filter  = R.filter;
+var over    = R.over;
+var map     = R.map;
+var pick    = R.pick;
+var pipe    = R.pipe;
+var reject  = R.reject;
+var sortBy  = R.sortBy;
+var use     = R.useWith;
+//  get
+var get     = R.prop;
+var get     = R.curry(function(prop, obj) {return obj[prop];});
+var get = function(prop) {
+    return function(obj) {
+        return obj[prop];
+    };
+};
+//  propEq
+var propEq = function(prop, val) { // original propEq definition
+    return function(obj) {
+        return obj[prop] === val;
+    };
+}
+var propEq = function(prop, val) { // first points-free try
+	return compose(eq(val), get(prop));
+}
+var propEq = function(prop, val) { // second attempt (using pipe() instead of compose());
+	return pipe(get(prop), eq(val));
+}
+// FIXME figure out why this use-over stuff doesn't work :(
+//var propEq = use(pipe).over(get, eq); // using 'use-over' feature
 
 // functional version
 var getIncompleteTaskSummariesForMember_functional = function(memberName) {
     return fetchData()
         .then(get('tasks'))
-        .then(filter(function(task) { return task.member == memberName; }))
-        .then(reject(function(task) { return task.complete === true; }))
+        .then(filter(propEq('member', memberName)))
+        .then(reject(propEq('complete', true)))
+        .then(map(pick(['id', 'dueDate', 'title', 'priority'])))
+        .then(sortBy(get('dueDate')))
     ;
 }
 
+var data = getIncompleteTaskSummariesForMember_functional('Scott');
+data.then(function(d){console.log(d);});
 
 // imperative version
 var getIncompleteTaskSummariesForMember_imperative = function(memberName) {
@@ -156,8 +184,6 @@ var TaskListSorter = (function()  {
     return TaskListSorter;
 }());
 
-//var data = getIncompleteTaskSummariesForMember_imperative('Lena');
+//var data = getIncompleteTaskSummariesForMember_imperative('Scott');
 //data.then(function(d){console.log(d);});
 
-var data = getIncompleteTaskSummariesForMember_functional('Lena');
-data.then(function(d){console.log(d);});
