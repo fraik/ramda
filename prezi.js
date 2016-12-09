@@ -21,18 +21,24 @@ var fetchData = function() {
 }
 
 // aliases (for readability)
-var filter = R.filter;
-var eq = R.eq;
 var compose = R.compose;
-// several equivalent forms of get('tasks') (called curry-ing in the prezi)
-var get = R.prop;
-var get = R.curry(function(prop, obj) {return obj[prop];});
+var eq      = R.equals;
+var filter  = R.filter;
+var over    = R.over;
+var map     = R.map;
+var pick    = R.pick;
+var pipe    = R.pipe;
+var reject  = R.reject;
+var use     = R.useWith;
+//  get
+var get     = R.prop;
+var get     = R.curry(function(prop, obj) {return obj[prop];});
 var get = function(prop) {
     return function(obj) {
         return obj[prop];
     };
 };
-var reject = R.reject;
+//  propEq
 var propEq = function(prop, val) { // original propEq definition
     return function(obj) {
         return obj[prop] === val;
@@ -41,15 +47,19 @@ var propEq = function(prop, val) { // original propEq definition
 var propEq = function(prop, val) { // first points-free try
 	return compose(eq(val), get(prop));
 }
-
-
+var propEq = function(prop, val) { // second attempt (using pipe() instead of compose());
+	return pipe(get(prop), eq(val));
+}
+// FIXME figure out why this use-over stuff doesn't work :(
+//var propEq = use(pipe).over(get, eq); // using 'use-over' feature
 
 // functional version
 var getIncompleteTaskSummariesForMember_functional = function(memberName) {
     return fetchData()
         .then(get('tasks'))
-        .then(filter(function(task) { return task.member == memberName; }))
-        .then(reject(function(task) { return task.complete === true; }))
+        .then(filter(propEq('member', memberName)))
+        .then(reject(propEq('complete', true)))
+        .then(map(pick(['id', 'dueDate', 'title', 'priority'])))
     ;
 }
 
