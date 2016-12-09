@@ -29,6 +29,7 @@ var map     = R.map;
 var pick    = R.pick;
 var pipe    = R.pipe;
 var reject  = R.reject;
+var sortBy  = R.sortBy;
 var use     = R.useWith;
 //  get
 var get     = R.prop;
@@ -60,9 +61,12 @@ var getIncompleteTaskSummariesForMember_functional = function(memberName) {
         .then(filter(propEq('member', memberName)))
         .then(reject(propEq('complete', true)))
         .then(map(pick(['id', 'dueDate', 'title', 'priority'])))
+        .then(sortBy(get('dueDate')))
     ;
 }
 
+var data = getIncompleteTaskSummariesForMember_functional('Scott');
+data.then(function(d){console.log(d);});
 
 // imperative version
 var getIncompleteTaskSummariesForMember_imperative = function(memberName) {
@@ -180,8 +184,6 @@ var TaskListSorter = (function()  {
     return TaskListSorter;
 }());
 
-//var data = getIncompleteTaskSummariesForMember_imperative('Lena');
+//var data = getIncompleteTaskSummariesForMember_imperative('Scott');
 //data.then(function(d){console.log(d);});
 
-var data = getIncompleteTaskSummariesForMember_functional('Lena');
-data.then(function(d){console.log(d);});
