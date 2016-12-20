@@ -1,15 +1,13 @@
-var scrabble = function(steentjes, zoekwoord) {
+var scrabble = (steentjes, zoekwoord) => {
 
-    // maak een hash met teller voor elke unieke letter
     var telLetters = woord => woord.split('').reduce((hash,elt) => hash[elt] ?
             (hash[elt]++,hash) :
             (hash[elt] = 1,hash),{});
-
     t = telLetters(steentjes);
     w = telLetters(zoekwoord);
 
     var enough = letter => t[letter]>=w[letter];
-    var boyAND = (x,y)  => x && y;  // geleend van boy ;)
+    var boyAND = (x,y)  => x&&y;  // geleend van boy ;)
 
     return zoekwoord.split('').map(enough).reduce(boyAND);
 }
