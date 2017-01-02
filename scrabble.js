@@ -2,7 +2,7 @@ var scrabble = (steentjes, zoekwoord) => {
 
     var telLetters = woord => woord.split('').reduce((hash,elt) => hash[elt] ?
             (hash[elt]++,hash) :
-            (hash[elt] = 1,hash),{});
+            (hash[elt]=1,hash),{});
     t = telLetters(steentjes);
     w = telLetters(zoekwoord);
 
