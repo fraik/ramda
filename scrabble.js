@@ -7,9 +7,9 @@ var scrabble = (steentjes, zoekwoord) => {
     w = telLetters(zoekwoord);
 
     var enough = letter => t[letter]>=w[letter];
-    var boyAND = (x,y)  => x&&y;  // geleend van boy ;)
+    var and = (x,y)  => x&&y;  // geleend van boy ;)
 
-    return zoekwoord.split('').map(enough).reduce(boyAND);
+    return zoekwoord.split('').map(enough).reduce(and);
 }
 
 console.log(scrabble('wfboaor', 'foo'));
